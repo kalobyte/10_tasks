@@ -1,11 +1,20 @@
 <?php
-function  profiles()
+require_once "db.php";
+
+function db2arrays($_pdo)
 {
+    $sth = $_pdo->prepare("SELECT * FROM users");
+    $sth->execute();
 
+    return $sth->fetchAll();
 
+}
+
+function  profiles($profiles)
+{
     foreach($profiles as $profile)
     {
-        $name = $profile["first-name"].' '.$profile["last-name"];
+        $name = $profile["first_name"].' '.$profile["last_name"];
         if($profile["banned"])
             $banned = "banned";
         else
@@ -15,12 +24,17 @@ function  profiles()
                       <div class="ml-2 mr-3">
                           <h5 class="m-0">'.$name.' ('.$profile["proff"].')<small class="m-0 fw-300">'.$profile["job"].'</small></h5>
                             <a href="https://twitter.com/@'.$profile["twitter"].'" class="text-info fs-sm" target="_blank">@'.$profile["twitter"].'</a> -
-                            <a href="https://wrapbootstrap.com/user/'.$profile["bootstrap"].'" class="text-info fs-sm" target="_blank" title="Contact '.$profile["first-name"].'"><i class="fal fa-envelope"></i></a>
+                            <a href="https://wrapbootstrap.com/user/'.$profile["bootstrap"].'" class="text-info fs-sm" target="_blank" title="Contact '.$profile["first_name"].'"><i class="fal fa-envelope"></i></a>
                       </div>
              </div>';
     }
 
 }
+
+
+$prosiles = db2arrays($pdo);
+
+
 
 /*
  CREATE TABLE `10lessons`.users (
@@ -81,7 +95,7 @@ COLLATE utf8_general_ci;
                     <div class="panel-container show">
                         <div class="panel-content">
                            <div class="d-flex flex-wrap demo demo-h-spacing mt-3 mb-3">
-                               <?php profiles(); ?>
+                               <?php profiles($prosiles); ?>
                            </div>
                         </div>
                     </div>
