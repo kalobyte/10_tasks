@@ -1,17 +1,21 @@
 <?php
-//session_start();
 require_once ("db.php");
+$show = "";
 
 if(isset($_POST['text']) && !empty($_POST['text']))
 {
-    $sql = 'INSERT INTO users (text) VALUE (:text)';
+    $sql = 'SELECT text FROM users WHERE text = :text';
     $params = [
         ':text'  => $_POST['text'],
-
     ];
+
     $statement = $pdo->prepare($sql);
     $statement->execute($params);
+    $result = $statement->fetch();
+
+    if($result) $show="show";
 }
+
 ?>
 
 
@@ -36,7 +40,6 @@ if(isset($_POST['text']) && !empty($_POST['text']))
     </head>
     <body class="mod-bg-1 mod-nav-link ">
         <main id="js-page-content" role="main" class="page-content">
-
             <div class="col-md-6">
                 <div id="panel-1" class="panel">
                     <div class="panel-hdr">
@@ -52,7 +55,10 @@ if(isset($_POST['text']) && !empty($_POST['text']))
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <form action="task_9.php" method="post">
+                                    <div class="alert alert-danger fade <?php echo $show;?>" role="alert">
+                                        You should check in on some of those fields below.
+                                    </div>
+                                    <form action="task_10.php" method="post">
                                         <label class="form-label" for="simpleinput">Text</label>
                                         <input type="text" name="text" id="simpleinput" class="form-control">
                                         <button class="btn btn-success mt-3">Submit</button>
