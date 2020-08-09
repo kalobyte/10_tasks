@@ -1,6 +1,5 @@
 <?php
 require_once ("db.php");
-$show = "";
 
 if(isset($_POST['text']) && !empty($_POST['text']))
 {
@@ -13,8 +12,8 @@ if(isset($_POST['text']) && !empty($_POST['text']))
     $statement->execute($params);
     $result = $statement->fetchColumn(); // возвращает false, если в базе нет совпадений или значение из таблицы
 
-    if($result) $show="show";
-    var_dump($result);
+    $result?$show="show":"";
+
 }
 
 ?>
