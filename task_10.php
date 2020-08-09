@@ -11,9 +11,10 @@ if(isset($_POST['text']) && !empty($_POST['text']))
 
     $statement = $pdo->prepare($sql);
     $statement->execute($params);
-    $result = $statement->fetch();
+    $result = $statement->fetchColumn(); // возвращает false, если в базе нет совпадений или значение из таблицы
 
     if($result) $show="show";
+    var_dump($result);
 }
 
 ?>
